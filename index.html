@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link rel="manifest" href="/manifest.json">
+
+<title>PWA Test</title>
+
+</head>
+
+<body>
+
+<h1>PWA Notification Test</h1>
+
+<button onclick="subscribe()">Enable Notifications</button>
+
+<script>
+
+async function subscribe(){
+
+const reg = await navigator.serviceWorker.register("/sw.js")
+
+const sub = await reg.pushManager.subscribe({
+userVisibleOnly:true,
+applicationServerKey:"YOUR_PUBLIC_VAPID_KEY"
+})
+
+await fetch("/api/subscribe",{
+method:"POST",
+body:JSON.stringify(sub)
+})
+
+alert("Notifications enabled")
+
+}
+
+</script>
+
+</body>
+</html>
